@@ -5,6 +5,7 @@ from sqlalchemy.sql.expression import column
 from sqlalchemy.sql.schema import ForeignKey
 from app.db.database import Base
 
+
 class User(Base):
     __tablename__ = "users"
     id = Column(Integer, primary_key = True, index = True)
@@ -38,3 +39,24 @@ class Event(Base):
     edir_id = Column(Integer, ForeignKey("edirs.id"))
 
     edir = relationship("Edir", back_populates="events")
+
+class Member(Base):
+    __tablename__ = "members"
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey('users.id'), index=True)
+    edir_id = Column(Integer, ForeignKey('edirs.id'), index=True)
+    status = Column(String(255))
+    
+    # owner
+    user = relationship("User", backref=backref("member", cascade="all, delete-orphan"))
+    edir = relationship("Edir", backref=backref("member", cascade="all, delete-orphan"))
+    payments = relationship("Payment", back_populates='member')
+
+
+
+
+
+
+
+
+    
