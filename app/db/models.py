@@ -52,7 +52,14 @@ class Member(Base):
     edir = relationship("Edir", backref=backref("member", cascade="all, delete-orphan"))
     payments = relationship("Payment", back_populates='member')
 
-
+class payment(Base):
+    __tablename__ = "payments"
+    id = Column(Integer)
+    note= Column(String(255))
+    payment= Column(Float)
+    member_id= column(Integer, ForeignKey('members.id'))
+    payment_date = Column(String(255))
+    member = relationship("member", back_populates="payments")
 
 
 
