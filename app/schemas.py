@@ -46,3 +46,47 @@ class EdirUpdate(BaseModel):
     name: str
     payment_frequency: str
     initial_deposite: int
+
+# user defnition 
+class _UserBase(BaseModel):
+    full_name: str
+    email: str
+    phone: str
+    role: str
+
+class UserUpdate(BaseModel):
+    full_name: str
+    email: str
+    phone: str
+    password: str
+
+class UserCreate(_UserBase):
+    password:str
+
+class User(_UserBase):
+    id: int
+    edirs: List[Edir] = []
+    joined: List[Edir] =[]
+
+    class config:
+        orm_mode = True
+
+class _PaymentBase(BaseModel):
+    note: str
+    payment:str
+    member_id: int
+    payment_date:str
+
+class Payment(_PaymentBase):
+    id: int
+
+    class config:
+        orm_mode = True
+class PaymentCreate(_PaymentBase):
+    pass
+
+class PaymenUpdate(BaseModel):
+    note:str
+    payment:str
+    payment_date:str
+    
