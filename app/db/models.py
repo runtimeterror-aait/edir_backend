@@ -28,3 +28,13 @@ class Edir(Base):
     owner = relationship("User", back_populates="edirs")
     events = relationship("Event", back_populates="edir")
     members = relationship("User",back_populates="members")
+
+class Event(Base):
+    __tablename__= "events"
+    id = Column(Integer ,primary_key=True, index=True)
+    title = Column(String(255))
+    description = Column(String(255))
+    event_date = Column(String(255))
+    edir_id = Column(Integer, ForeignKey("edirs.id"))
+
+    edir = relationship("Edir", back_populates="events")
