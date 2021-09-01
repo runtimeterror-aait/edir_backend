@@ -1,3 +1,5 @@
+from app.db.models import payment
+from sqlalchemy.sql.functions import user
 from pydantic import BaseModel
 
 from typing import List, Optional
@@ -90,3 +92,33 @@ class PaymenUpdate(BaseModel):
     payment:str
     payment_date:str
     
+
+
+class _MemberBase(BaseModel):
+    user_id:str
+    edir_id:str
+    status:str
+
+class MemberCreate(_MemberBase):
+    pass
+
+class Member(_MemberBase):
+    id: int
+    user: List[User] = []
+    edir: List[Edir] = []
+    payments: List[Payment] = []
+
+class MemberUpdate(BaseModel):
+    status:str
+
+class Token(BaseModel):
+    accessToken:str
+    tokenType:str
+
+class TokenData(BaseModel):
+    email: Optional[str] = None
+    userType: Optional[str] = None
+
+class AuthDetails(BaseModel):
+    email: str
+    password: str
