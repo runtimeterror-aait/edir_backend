@@ -92,7 +92,7 @@ class PaymenUpdate(BaseModel):
     payment:str
     payment_date:str
     
-
+# member defnition
 
 class _MemberBase(BaseModel):
     user_id:str
