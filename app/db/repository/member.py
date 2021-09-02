@@ -16,3 +16,20 @@ def check_member_exist(db:Session, edir_id: int, user_id: int):
     if db_member is None:
         return False
     return True
+def create_member(db:Session, member: MemberCreate):
+    db_member = Member(user_id=member.edir_id, edir_id=member.edir_id, status="pending")
+    db.add(db_member)
+    db.commit()
+    return db_member
+
+def update_member(db:Session, member_id: int, member: MemberUpdate):
+    db_member = db.query(Member).filter(Member.id == member_id).first()
+    db_member.status = member.status
+    db.commit()
+    db.refresh(db_member)
+    return db_member
+
+def delete_member(db: Session, member_id: int):
+    db.query(Member).filter(Member.id == member_id).delete()
+    db.commit()
+
