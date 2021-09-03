@@ -20,3 +20,8 @@ def get_all_events(edir_id: int, skip: int = 0, limit: int = 10,  email=Depends(
     else:
         events = get_events(db=db, edir_id=edir_id, skip=skip, limit=limit)
         return events
+
+@router.get("/{edir_id}/{event_id}")
+def get_one_event(edir_id: int, event_id: int, db: Session = Depends(get_db), email=Depends(auth_handler.auth_wrapper)):
+    event = get_event_by_id(db=db, id=event_id)
+    return event
