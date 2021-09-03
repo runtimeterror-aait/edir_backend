@@ -20,3 +20,17 @@ def login(auth_details: AuthDetails, db: Session = Depends(get_db)):
         return { 'token': token, 'role': "a" }
     else:
         raise HTTPException(status_code=401, detail='Invalid email and/or password')
+
+@router.post("/signup", status_code=201)
+def sign_up(user: UserCreate, db: Session = Depends(get_db)):
+    db_user = get_user_by_email(db=db, email=user.email)
+    if db_user:
+        raise HTTPException(
+            status_code=400, detail="woops the email is in use"
+        )
+    return create_user(db=db,user=user)
+
+
+@router.get("/logout")
+def log_out():
+    return "logout"
