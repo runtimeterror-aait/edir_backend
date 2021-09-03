@@ -37,3 +37,7 @@ def create_new_event(event: EventCreate, email=Depends(auth_handler.auth_wrapper
 @router.put("/{event_id}")
 def update_existing_event(event_id: int, event: EventUpdate, email=Depends(auth_handler.auth_wrapper), db: Session = Depends(get_db)):
         return update_event(db=db, event_id=event_id, event=event)
+
+@router.delete("/{event_id}")
+def delete_existing_event(event_id: int, email=Depends(auth_handler.auth_wrapper), db: Session = Depends(get_db)):
+    return delete_event(db=db, event_id=event_id)
