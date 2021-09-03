@@ -25,3 +25,15 @@ def get_all_events(edir_id: int, skip: int = 0, limit: int = 10,  email=Depends(
 def get_one_event(edir_id: int, event_id: int, db: Session = Depends(get_db), email=Depends(auth_handler.auth_wrapper)):
     event = get_event_by_id(db=db, id=event_id)
     return event
+
+@router.post("/")
+def create_new_event(event: EventCreate, email=Depends(auth_handler.auth_wrapper), db: Session = Depends(get_db)):
+    if get_edir_by_id(db=db, id=event.edir_id) is None:     
+        raise HTTPException(status_code=404, detail="Edir doesn't exist")   
+    else:
+        return create_event(db=db, email=email, event=event)
+
+
+@router.put("/{event_id}")
+def update_existing_event(event_id: int, event: EventUpdate, email=Depends(auth_handler.auth_wrapper), db: Session = Depends(get_db)):
+        return update_event(db=db, event_id=event_id, event=event)
