@@ -12,3 +12,11 @@ router = APIRouter(
     tags=["Authentication"],
     responses={404: {"description": "Not found"}},
 )
+
+@router.post("/login")
+def login(auth_details: AuthDetails, db: Session = Depends(get_db)):
+    if(check_user_exist(db, auth_details.email, auth_details.password)):
+        token = auth_handler.encode_token(auth_details.email)
+        return { 'token': token, 'role': "a" }
+    else:
+        raise HTTPException(status_code=401, detail='Invalid email and/or password')
