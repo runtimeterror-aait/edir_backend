@@ -87,7 +87,7 @@ class Payment(_PaymentBase):
 class PaymentCreate(_PaymentBase):
     pass
 
-class PaymenUpdate(BaseModel):
+class PaymentUpdate(BaseModel):
     note:str
     payment:str
     payment_date:str
