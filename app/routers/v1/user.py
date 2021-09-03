@@ -22,3 +22,8 @@ def auth_user(email=Depends(auth_handler.auth_wrapper), db: Session = Depends(ge
 @router.put("/")
 def auth_user_update(user: UserUpdate, email: Depends(auth_handler.auth_wrapper), db: Session = Depends(get_db)):
     return update_user(db=db, email=email, user=user)
+
+#delete user
+@router.delete("/")
+def auth_user_delete(email: Depends(auth_handler.auth_wrapper), db: Session = Depends(get_db)):
+    return delete_user(db=db, email=email)
