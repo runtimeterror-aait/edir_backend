@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from app.db.repository.auth import AuthHandler
 from app.schemas import Member as MemberSchema, MemberCreate, MemberUpdate
 from app.db.database import get_db
-from app.db.repository.member import get_all_members, create_member
+from app.db.repository.member import get_all_members, create_member, delete_member, update_member
 from app.db.repository.user import get_user
 from app.db.repository.edir import get_edir_by_id
 
@@ -32,3 +32,13 @@ def add_member(member: MemberCreate, email=Depends(auth_handler.auth_wrapper), d
         raise HTTPException(status_code=404, detail="Oops, Edir doesn't exist")
 
     return create_member(db=db, member=member)
+
+#approval
+@router.put("/{member_id}")
+def approve_or_reject_member(member_id: int, member: MemberUpdate, email=Depends(auth_handler.auth_wrapper), db: Session = Depends(get_db)):
+    return update_member(db=db, member_id=member_id, member=member)
+    
+#delete member
+@router.delete("/{member_id}")
+def remove_member(member_id: int, email=Depends(auth_handler.auth_wrapper), db: Session = Depends(get_db)):
+    return delete_member(db=db, member_id=member_id)
