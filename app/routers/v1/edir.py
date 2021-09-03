@@ -22,3 +22,15 @@ def get_all_edirs(skip: int = 0, limit: int = 10, email=Depends(auth_handler.aut
 def get_one_edir(edir_id: int, db: Session = Depends(get_db), email=Depends(auth_handler.auth_wrapper)):
     edir = get_edir_by_id(db=db, id=edir_id)
     return edir
+
+@router.post("/")
+def create_new_edir(edir: EdirCreate, email=Depends(auth_handler.auth_wrapper), db: Session = Depends(get_db)):
+    if get_edir_by_username(db=db, username=edir.username):
+        raise HTTPException(status_code=400, detail='Username already taken!')
+    else:
+        return create_edir(db=db, email=email, edir=edir)
+
+
+@router.put("/{edir_id}")
+def update_existing_edir(edir_id: int, edir: EdirUpdate, email=Depends(auth_handler.auth_wrapper), db: Session = Depends(get_db)):
+    return update_edir(db=db, edir_id=edir_id, edir=edir)
