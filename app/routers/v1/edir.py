@@ -34,3 +34,7 @@ def create_new_edir(edir: EdirCreate, email=Depends(auth_handler.auth_wrapper), 
 @router.put("/{edir_id}")
 def update_existing_edir(edir_id: int, edir: EdirUpdate, email=Depends(auth_handler.auth_wrapper), db: Session = Depends(get_db)):
     return update_edir(db=db, edir_id=edir_id, edir=edir)
+
+@router.delete("/{edir_id}")
+def delete_existing_edir(edir_id: int, email=Depends(auth_handler.auth_wrapper), db: Session = Depends(get_db)):
+    return delete_edir(db=db, edir_id=edir_id)
