@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from app.db.repository.auth import AuthHandler
 from app.schemas import UserUpdate
 from app.db.database import get_db
-from app.db.repository.user import get_user_by_email, update_user
+from app.db.repository.user import get_user_by_email, update_user, delete_user
 auth_handler = AuthHandler()
 
 

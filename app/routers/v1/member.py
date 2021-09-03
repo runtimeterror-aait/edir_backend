@@ -24,11 +24,11 @@ def get_edir_members(edir_id: int, skip: int = 0, limit: int = 10, db:Session = 
 @router.post("/")
 def add_member(member: MemberCreate, email=Depends(auth_handler.auth_wrapper), db: Session = Depends(get_db)):
     #if the user doesn't exist
-    if get_user(db=db, id=member.user_id):
+    if not get_user(db=db, id=member.user_id):
         raise HTTPException(status_code=404, detail="Oops, User doesn't exist")
 
     #if the edir doesn't exist
-    if get_edir_by_id(db=db, id=member.edir_id):
+    if not get_edir_by_id(db=db, id=member.edir_id):
         raise HTTPException(status_code=404, detail="Oops, Edir doesn't exist")
 
     return create_member(db=db, member=member)
