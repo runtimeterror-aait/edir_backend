@@ -1,3 +1,4 @@
+from app.dependencies.authorization import admin
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from app.db.repository.auth import AuthHandler
@@ -15,30 +16,38 @@ router = APIRouter(
     responses={404: {"description": "Not found"}},
 )
 
-#get members
+# get members
+
+
 @router.get("/{edir_id}")
-def get_edir_members(edir_id: int, skip: int = 0, limit: int = 10, db:Session = Depends(get_db), email=Depends(auth_handler.auth_wrapper)):
+def get_edir_members(edir_id: int, skip: int = 0, limit: int = 10, db: Session = Depends(get_db), email=Depends(auth_handler.auth_wrapper), check_admin = Depends(admin)):
     return get_all_members(db=db, edir_id=edir_id, skip=skip, limit=limit)
 
-#add a memeber
+# add a member
+
+
 @router.post("/")
 def add_member(member: MemberCreate, email=Depends(auth_handler.auth_wrapper), db: Session = Depends(get_db)):
-    #if the user doesn't exist
+    # if the user doesn't exist
     if not get_user(db=db, id=member.user_id):
         raise HTTPException(status_code=404, detail="Oops, User doesn't exist")
 
-    #if the edir doesn't exist
+    # if the edir doesn't exist
     if not get_edir_by_id(db=db, id=member.edir_id):
         raise HTTPException(status_code=404, detail="Oops, Edir doesn't exist")
 
     return create_member(db=db, member=member)
 
-#approval
+# approval
+
+
 @router.put("/{member_id}")
-def approve_or_reject_member(member_id: int, member: MemberUpdate, email=Depends(auth_handler.auth_wrapper), db: Session = Depends(get_db)):
+def approve_or_reject_member(member_id: int, member: MemberUpdate, email=Depends(auth_handler.auth_wrapper), db: Session = Depends(get_db), check_admin = Depends(admin)):
     return update_member(db=db, member_id=member_id, member=member)
-    
-#delete member
+
+# delete member
+
+
 @router.delete("/{member_id}")
 def remove_member(member_id: int, email=Depends(auth_handler.auth_wrapper), db: Session = Depends(get_db)):
     return delete_member(db=db, member_id=member_id)

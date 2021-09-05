@@ -1,3 +1,4 @@
+from app.dependencies.authorization import admin
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from app.db.repository.auth import AuthHandler
@@ -36,7 +37,7 @@ def get_all_payments(edir_id: int, member_id: int, skip: int = 0, limit: int = 1
 
 #add payment
 @router.post("/")
-def add_new_payment(payment: PaymentCreate, email=Depends(auth_handler.auth_wrapper), db: Session = Depends(get_db)):
+def add_new_payment(payment: PaymentCreate, email=Depends(auth_handler.auth_wrapper), db: Session = Depends(get_db),check_admin = Depends(admin)):
     if not get_member_by_id(db=db, id=payment.user_id):
         raise HTTPException(status_code=404, detail="Oops, User doesn't exist in this edir")
     if not get_edir_by_id(db=db, id=payment.edir_id):
@@ -45,10 +46,10 @@ def add_new_payment(payment: PaymentCreate, email=Depends(auth_handler.auth_wrap
 
 #update payment
 @router.put("/{payment_id}")
-def update_member_payment(payment_id: int, payment: PaymentUpdate, email=Depends(auth_handler.auth_wrapper), db: Session = Depends(get_db)):
+def update_member_payment(payment_id: int, payment: PaymentUpdate, email=Depends(auth_handler.auth_wrapper), db: Session = Depends(get_db), check_admin = Depends(admin)):
     return update_payment(db=db, payment_id=payment_id, payment=payment)
     
 #remove payment
 @router.delete("/{payment_id}")
-def remove_member_payment(payment_id: int, email=Depends(auth_handler.auth_wrapper), db: Session = Depends(get_db)):
+def remove_member_payment(payment_id: int, email=Depends(auth_handler.auth_wrapper), db: Session = Depends(get_db), check_admin = Depends(admin)):
     return delete_payment(db=db, payment_id=payment_id)
