@@ -1,5 +1,5 @@
 import datetime as _dt
-from sqlalchemy import Column,Integer,String,DateTime, Float,Text
+from sqlalchemy import Column,Integer,String, Float,Text
 from sqlalchemy.orm import relationship, backref
 from sqlalchemy.sql.expression import column
 from sqlalchemy.sql.schema import ForeignKey
@@ -52,12 +52,12 @@ class Member(Base):
     edir = relationship("Edir", backref=backref("member", cascade="all, delete-orphan"))
     payments = relationship("Payment", back_populates='member')
 
-class payment(Base):
+class Payment(Base):
     __tablename__ = "payments"
-    id = Column(Integer)
+    id = Column(Integer, primary_key=True, index=True)
     note= Column(String(255))
     payment= Column(Float)
-    member_id= column(Integer, ForeignKey('members.id'))
+    member_id= Column(Integer, ForeignKey('members.id'))
     payment_date = Column(String(255))
     member = relationship("member", back_populates="payments")
 

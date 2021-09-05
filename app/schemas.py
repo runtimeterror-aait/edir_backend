@@ -1,4 +1,3 @@
-from app.db.models import payment
 from sqlalchemy.sql.functions import user
 from pydantic import BaseModel
 
