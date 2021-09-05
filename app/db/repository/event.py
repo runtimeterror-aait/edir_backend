@@ -19,7 +19,6 @@ def create_event(db: Session, email: str, event: EventCreate):
 def update_event(db: Session, event_id: int, event: EventUpdate):
 
     db_event = get_event_by_id(db=db, id=event_id)
-    return db_event
     # db_event.title = event.title
     # db_event.description = event.description
     # db_event.event_date = event.event_date
