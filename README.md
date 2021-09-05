@@ -1,25 +1,20 @@
-# Edir Backend Created with FASTAPI
-## Get Started
+# edir
+## Description
 
-### <u> Requirements </u>
-* Python < v3.6
-* mysql, mariadb or postgresql
+Edir application is the digital version of the traditional Edir. Members of the Edir pay a weekly or monthly payment and they can track their payment. In addition to that they can see when there are upcoming events. Admin of an edir posts events, controls payment processes and manage members.
 
-## installation
+## Features
+* Admin creates an Edir organization 
+* Admins approve or disapprove membership requests
+* Admins can perform CRUD on events.
+* Admins follow up members weekly / monthly payment 
+* Members can view their payment progress and coming up events
+* Members can edit their profile
+* Members can leave the Edir (Delete account)
 
-first create a virtual environment for python by opening the terminal or cmd
-
-> python -m venv venv
-
-after that activate the virtual environmen
-> source venv/bin/activate
-
-after that install the requirements
-
-> pip install -r requirements.txt
-
-then run the app using uvicorn
-> uvicorn app.main:app --reload
-
-
-
+### Group members
+* Betemariam Moges - ATR/0636/11
+* Dawit Bezabih - ATR/8263/11
+* Liyu Mesfin - ATR/3709/11
+* Michael Belete - ATR/5388/11
+* Naol Dame - ATR/9084/11
