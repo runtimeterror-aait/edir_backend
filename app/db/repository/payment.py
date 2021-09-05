@@ -22,8 +22,8 @@ def create_payment(db: Session, payment: PaymentCreate):
 def update_payment(db: Session, payment_id: int, payment: PaymentUpdate):
     db_payment = db.query(Payment).filter(Payment.id == payment_id).first()
     db_payment.note = payment.note
-    db_payments.payment = payment.payment
-    db_payments.payment_date = payment.payment_date
+    db_payment.payment = payment.payment
+    db_payment.payment_date = payment.payment_date
     db.commit()
     db.refresh(db_payment)
     return db_payment

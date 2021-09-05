@@ -19,12 +19,12 @@ def create_event(db: Session, email: str, event: EventCreate):
 def update_event(db: Session, event_id: int, event: EventUpdate):
 
     db_event = get_event_by_id(db=db, id=event_id)
-    # db_event.title = event.title
-    # db_event.description = event.description
-    # db_event.event_date = event.event_date
-    # db.commit()
-    # db.refresh(db_event)
-    # return db_event
+    db_event.title = event.title
+    db_event.description = event.description
+    db_event.event_date = event.event_date
+    db.commit()
+    db.refresh(db_event)
+    return db_event
 
 def delete_event(db: Session, event_id: int):
     db.query(Event).filter(Event.id == event_id).delete()
