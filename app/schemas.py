@@ -3,6 +3,8 @@ from pydantic import BaseModel
 
 from typing import List, Optional
 
+from sqlalchemy.sql.sqltypes import Enum
+
 # event defnation
 
 class _EventBase(BaseModel):
@@ -48,12 +50,16 @@ class EdirUpdate(BaseModel):
     payment_frequency: str
     initial_deposite: int
 
+class RoleChoice(str, Enum):
+    u = "u"
+    a = "a"
+
 # user defnition 
 class _UserBase(BaseModel):
     full_name: str
     email: str
     phone: str
-    role: str
+    role: RoleChoice
 
 class UserUpdate(BaseModel):
     full_name: str
