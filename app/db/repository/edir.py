@@ -5,7 +5,8 @@ from app.db.repository.user import get_user_by_email
 
 def get_edirs(db: Session, email: str, skip: int = 0, limit: int = 10):
     db_user = get_user_by_email(db, email)
-    return db.query(Edir).filter(Edir.owner_id == db_user.id).offset(skip).limit(limit).all()
+    return db_user.first()
+    # return db.query(Edir).filter(Edir.owner_id == db_user.id).offset(skip).limit(limit).all()
 
 def get_edir_by_id(db: Session, id: int):
     return db.query(Edir).filter(Edir.id == id).first()
