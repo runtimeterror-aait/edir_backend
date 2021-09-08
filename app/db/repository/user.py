@@ -17,13 +17,13 @@ def check_encrypted_password(password, hashed):
 
 def check_user_exist(db: Session, email: str, password: str):
     user_exist = db.query(User).filter(User.email == email).first()
-    if user_exist is not None:
+    if user_exist is None:
+        return False
+    else:
         if check_encrypted_password(password, user_exist.password):
             return True
         else: 
             return False
-    else:
-        return False
 
 def get_user(db: Session, user_id: int):
     return db.query(User).filter(User.id == user_id).first()
