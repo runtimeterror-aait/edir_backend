@@ -38,7 +38,7 @@ def get_all_payments(edir_id: int, member_id: int, skip: int = 0, limit: int = 1
 #add payment
 @router.post("/")
 def add_new_payment(payment: PaymentCreate, email=Depends(auth_handler.auth_wrapper), db: Session = Depends(get_db),check_admin = Depends(admin)):
-    if not get_member_by_id(db=db, id=payment.user_id):
+    if not get_member_by_id(db=db, id=payment.member_id):
         raise HTTPException(status_code=404, detail="Oops, User doesn't exist in this edir")
     if not get_edir_by_id(db=db, id=payment.edir_id):
         raise HTTPException(status_code=404, detail="Oops, Edir doesn't exist")
