@@ -1,11 +1,13 @@
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 from app.schemas import Member as MemberSchema, MemberCreate, MemberUpdate
 from app.db.models import Member 
 from app.db.repository.edir import get_edir_by_id
 
 def get_all_members(db: Session, edir_id: int, skip: int = 0, limit:int = 0):
-    db_edir = get_edir_by_id(db=db, id=edir_id)
-    return db_edir.members
+    # db_edir = db.query(Edir).filter(Edir.id == edir_id).options(joinedload(Edir.members)).all()
+    db_edir = db.query(Member).filter(Member.edir_id == edir_id).options(joinedload(Member.user)).all()
+    print(db_edir)  
+    return db_edir
 
 def get_member_by_id(db:Session, edir_id: int, user_id: int):
     db_member = db.query(Member).filter(Member.edir_id == edir_id, Member.user_id == user_id).first()
