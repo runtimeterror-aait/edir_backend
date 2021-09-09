@@ -26,9 +26,9 @@ def create_member(db:Session, member: MemberCreate):
     db.commit()
     return db_member
 
-def update_member(db:Session, member_id: int, member: MemberUpdate):
+def update_member(db:Session, member_id: int):
     db_member = db.query(Member).filter(Member.id == member_id).first()
-    db_member.status = member.status
+    db_member.status = "a"
     db.commit()
     db.refresh(db_member)
     return db_member
