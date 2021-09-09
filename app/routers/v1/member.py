@@ -1,3 +1,4 @@
+from os import stat
 from app.dependencies.authorization import admin
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
@@ -8,6 +9,7 @@ from app.db.repository.member import (
     get_all_members,
     create_member,
     delete_member,
+    get_member_by_id,
     update_member,
 )
 from app.db.repository.user import get_user
@@ -53,6 +55,9 @@ def add_member(
     if not get_edir_by_id(db=db, id=member.edir_id):
         raise HTTPException(status_code=404, detail="Oops, Edir doesn't exist")
 
+    if get_member_by_id(db=db, edir_id=member.edir_id, user_id=member.user_id):
+        raise HTTPException(status_code=403, detail="Member already exist")
+   
     return create_member(db=db, member=member)
 
 
