@@ -4,7 +4,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm.session import Session
 from sqlalchemy.sql.expression import false
 
-SQLALCHEMY_DATABASE_URL = "mysql+pymysql://root:mike123@localhost:3306/edir"
+SQLALCHEMY_DATABASE_URL = "mysql+pymysql://liyu:root@localhost:3306/edir"
 
 
 # engine = create_engine(
@@ -12,6 +12,7 @@ SQLALCHEMY_DATABASE_URL = "mysql+pymysql://root:mike123@localhost:3306/edir"
 # )
 
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
+
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()
