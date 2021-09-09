@@ -60,14 +60,13 @@ def add_member(
 
 
 @router.put("/{member_id}")
-def approve_or_reject_member(
+def approve_member(
     member_id: int,
-    member: MemberUpdate,
     email=Depends(auth_handler.auth_wrapper),
     db: Session = Depends(get_db),
     check_admin=Depends(admin),
 ):
-    return update_member(db=db, member_id=member_id, member=member)
+    return update_member(db=db, member_id=member_id)
 
 
 # delete member
