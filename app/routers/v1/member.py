@@ -84,4 +84,5 @@ def remove_member(
     email=Depends(auth_handler.auth_wrapper),
     db: Session = Depends(get_db),
 ):
+    
     return delete_member(db=db, member_id=member_id)

@@ -1,7 +1,7 @@
 from app.dependencies.authorization import user
 from app.db.repository.user import get_user
 from sqlalchemy.orm import Session, joinedload
-from app.schemas import Member as MemberSchema, MemberCreate, MemberUpdate, User
+from app.schemas import Member as MemberSchema, MemberCreate, MemberUpdate, Payment, User
 from app.db.models import Member 
 from app.db.repository.edir import get_edir_by_id, get_edir_by_username
 
@@ -44,6 +44,13 @@ def update_member(db:Session, member_id: int):
     return db_member
 
 def delete_member(db: Session, member_id: int):
-    db.query(Member).filter(Member.id == member_id).delete()
+    member = db.query(Member).filter(Member.id == member_id)
+    fetch = member.first()
+
+    for payment in fetch.payments:
+        db.query(Payment).filter(Payment.id == payment.id).delete()
+
+    member.delete()
+    
     db.commit()
 
