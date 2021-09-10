@@ -12,6 +12,10 @@ def get_member_by_id(db:Session, edir_id: int, user_id: int):
     db_member = db.query(Member).filter(Member.edir_id == edir_id, Member.user_id == user_id).first()
     return db_member
 
+def get_member_by_member_id(db:Session, id: int):
+    db_member = db.query(Member).filter(Member.id == id).first()
+    return db_member
+
 def check_member_exist(db:Session, edir_id: int, user_id: int):
     db_member = get_member_by_id(db=db, edir_id=edir_id, user_id=user_id)
     if db_member is None:

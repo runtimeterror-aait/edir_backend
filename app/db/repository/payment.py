@@ -12,7 +12,7 @@ def get_all_members_payment(db: Session, edir_id: int, user_id: int, skip: int =
 
 
 def create_payment(db: Session, payment: PaymentCreate):
-    db_payment = Payment(notes=payment.notes, payment=payment.payment,
+    db_payment = Payment(note=payment.note, payment=payment.payment,
                          member_id=payment.member_id, payment_date=payment.payment_date)
     db.add(db_payment)
     db.commit()
