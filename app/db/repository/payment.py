@@ -4,15 +4,13 @@ from app.db.models import Payment
 from app.db.repository.member import get_member_by_id
 
 def get_all_members_payment(db: Session, edir_id: int, user_id: int, skip: int = 0, limit: int = 10):
-    member = get_member_by_id(db=db, edir_id=edir_id, user_id=user_id)
-
     db_payments = db.query(Payment).filter(
-        Payment.member_id == member.id).offset(skip).limit(limit).all()
+        Payment.member_id == user_id).offset(skip).limit(limit).all()
     return db_payments
 
 
 def create_payment(db: Session, payment: PaymentCreate):
-    db_payment = Payment(notes=payment.notes, payment=payment.payment,
+    db_payment = Payment(note=payment.note, payment=payment.payment,
                          member_id=payment.member_id, payment_date=payment.payment_date)
     db.add(db_payment)
     db.commit()
