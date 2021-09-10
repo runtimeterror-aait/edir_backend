@@ -9,11 +9,12 @@ from app.db.repository.member import (
     get_all_members,
     create_member,
     delete_member,
+    get_member_by_edir_username,
     get_member_by_id,
     update_member,
 )
 from app.db.repository.user import get_user
-from app.db.repository.edir import get_edir_by_id
+from app.db.repository.edir import get_edir_by_id, get_edir_by_username
 
 auth_handler = AuthHandler()
 
@@ -52,10 +53,10 @@ def add_member(
         raise HTTPException(status_code=404, detail="Oops, User doesn't exist")
 
     # if the edir doesn't exist
-    if not get_edir_by_id(db=db, id=member.edir_id):
+    if not get_edir_by_username(db=db, username=member.edir_username):
         raise HTTPException(status_code=404, detail="Oops, Edir doesn't exist")
 
-    if get_member_by_id(db=db, edir_id=member.edir_id, user_id=member.user_id):
+    if get_member_by_edir_username(db=db, username=member.edir_username):
         raise HTTPException(status_code=403, detail="Member already exist")
    
     return create_member(db=db, member=member)
@@ -83,4 +84,5 @@ def remove_member(
     email=Depends(auth_handler.auth_wrapper),
     db: Session = Depends(get_db),
 ):
+    
     return delete_member(db=db, member_id=member_id)

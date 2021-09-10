@@ -104,8 +104,10 @@ class _MemberBase(BaseModel):
     edir_id:str
     status:str
 
-class MemberCreate(_MemberBase):
-    pass
+class MemberCreate(BaseModel):
+    user_id:int
+    edir_username: str
+    status: str
 
 class Member(_MemberBase):
     id: int
