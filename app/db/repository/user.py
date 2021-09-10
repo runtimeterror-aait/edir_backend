@@ -1,7 +1,8 @@
 from sqlalchemy.orm import Session
-from app.schemas import UserCreate, UserUpdate
+from starlette import responses
+from app.schemas import  UserCreate, UserUpdate
 from passlib.context import CryptContext
-from app.db.models import User
+from app.db.models import User, Edir
 
 pwd_context = CryptContext(
     schemes=["pbkdf2_sha256"],
@@ -61,5 +62,12 @@ def update_user(db: Session, email: str, user: UserUpdate):
     return db_user
 
 def delete_user(db: Session, email: str):
-    db.query(User).filter(User.email == email).delete()
+    response = db.query(User).filter(User.email == email)
+    user = response.first()
+    
+    if user.edirs:
+        for edir in user.edirs:
+            db.query(Edir).filter(Edir.id == edir.id).delete()
+
+    response.delete()
     db.commit()

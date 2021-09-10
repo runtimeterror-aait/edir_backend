@@ -1,8 +1,8 @@
 from app.dependencies.authorization import user
 from app.db.repository.user import get_user
 from sqlalchemy.orm import Session, joinedload
-from app.schemas import Member as MemberSchema, MemberCreate, MemberUpdate, Payment, User
-from app.db.models import Member 
+from app.schemas import Member as MemberSchema, MemberCreate, MemberUpdate, User
+from app.db.models import Member, Payment
 from app.db.repository.edir import get_edir_by_id, get_edir_by_username
 
 def get_all_members(db: Session, edir_id: int, skip: int = 0, limit:int = 0):
