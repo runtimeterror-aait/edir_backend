@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from app.schemas import Payment, PaymentCreate, PaymentUpdate
-from app.db.models import Payment
+from app.db.models import Member, Payment
 from app.db.repository.member import get_member_by_id
 
 def get_all_members_payment(db: Session, edir_id: int, user_id: int, skip: int = 0, limit: int = 10):
@@ -8,6 +8,12 @@ def get_all_members_payment(db: Session, edir_id: int, user_id: int, skip: int =
         Payment.member_id == user_id).offset(skip).limit(limit).all()
     return db_payments
 
+def get_all_user_payment(db: Session, user_id: int, skip: int = 0, limit: int = 10):
+    edir = db.query(Member).filter(Member.user_id == user_id).first()
+    member_id = edir.id;
+    db_payments = db.query(Payment).filter(
+        Payment.member_id == member_id).offset(skip).limit(limit).all()
+    return db_payments
 
 def create_payment(db: Session, payment: PaymentCreate):
     db_payment = Payment(note=payment.note, payment=payment.payment,

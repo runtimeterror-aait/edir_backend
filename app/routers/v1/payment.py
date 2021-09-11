@@ -17,22 +17,16 @@ router = APIRouter(
 )
 
 
-#get payments by a member
-# @router.get("/{edir_id}/{member_id}")
-# def get_all_payments(edir_id: int, member_id: int, skip: int = 0, limit: int = 10, db:Session = Depends(get_db), email=Depends(auth_handler.auth_wrapper)):
-#     #if member doesn't exist
-#     if not get_member_by_member_id(db=db, id=member_id):
-#         raise HTTPException(status_code=404, detail="Oops, User doesn't exist in this edir")
+# get payments by a member
+@router.get("/user/{user_id}")
+def get_all_payments_by_user_id(user_id: int, skip: int = 0, limit: int = 10, db:Session = Depends(get_db), email=Depends(auth_handler.auth_wrapper)):
     
-#     #if edir doesn't exist
-#     if not get_edir_by_id(db=db, id=edir_id):
-#         raise HTTPException(status_code=404, detail="Oops, Edir doesn't exist")
-#     payments = get_all_members_payment(db=db, edir_id=edir_id, user_id=member_id, skip=skip, limit=limit)
+    payments = get_all_user_payment(db=db, user_id=user_id, skip=skip, limit=limit)
 
-#     #if there's no payment
-#     if payments is None:
-#         raise HTTPException(status_code=404, detail="No payment exist")
-#     return payments
+    #if there's no payment
+    if payments is None:
+        raise HTTPException(status_code=404, detail="No payment exist")
+    return payments
 
 @router.get("user/{member_id}")
 def get_all_payments(edir_id: int, member_id: int, skip: int = 0, limit: int = 10, db:Session = Depends(get_db), email=Depends(auth_handler.auth_wrapper)):

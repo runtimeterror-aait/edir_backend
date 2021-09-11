@@ -23,12 +23,9 @@ def get_all_events(edir_id: int, skip: int = 0, limit: int = 10,  email=Depends(
         return events
 
 @router.get("/user/{user_id}")
-def get_all_events_by_user_id(user_id: int, skip: int = 0, limit: int = 10,  email=Depends(auth_handler.auth_wrapper), db: Session = Depends(get_db)):
-    if get_edir_by_id(db=db, id=edir_id) is None:     
-        raise HTTPException(status_code=404, detail="Edir doesn't exist")   
-    else:
-        events = get_event_by_user_id(db=db, user_id=user_id, skip=skip, limit=limit)
-        return events
+def get_event_by_user_id(user_id: int, skip: int = 0, limit: int = 10,  email=Depends(auth_handler.auth_wrapper), db: Session = Depends(get_db)):
+    events = get_event_by_user_id(db=db, user_id=user_id, skip=skip, limit=limit)
+    return events
 
 @router.get("/{edir_id}/{event_id}")
 def get_one_event(edir_id: int, event_id: int, db: Session = Depends(get_db), email=Depends(auth_handler.auth_wrapper)):
