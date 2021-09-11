@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from app.schemas import Event, EventCreate, EventUpdate
-from app.db.models import Event 
+from app.db.models import Event, Member 
 from app.db.repository.user import get_user_by_email
 from app.db.repository.edir import get_edir_by_id
 
@@ -10,6 +10,11 @@ def get_events(db: Session, edir_id: int, skip: int = 0, limit: int = 10):
 def get_event_by_id(db: Session, id: int):
     return db.query(Event).filter(Event.id == id).first()
 
+def get_event_by_user_id(db:Session, user_id: int, skip: int = 0, limit: int = 10):
+    member = db.query(Member).filter(Member.user_id == user_id).first();
+    edir_id = member.edir_id;
+    return  get_events(db=db, edir_id=edir_id, skip=skip, limit=limit);
+    
 def create_event(db: Session, email: str, event: EventCreate):
     db_event = Event(title=event.title, description=event.description, event_date=event.event_date, edir_id=event.edir_id)
     db.add(db_event)
