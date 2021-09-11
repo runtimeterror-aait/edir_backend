@@ -2,7 +2,7 @@ from app.dependencies.authorization import admin
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from app.db.repository.auth import AuthHandler
-from app.db.repository.payment import get_all_members_payment, create_payment, update_payment, delete_payment
+from app.db.repository.payment import get_all_members_payment, create_payment, get_all_user_payment, update_payment, delete_payment
 from app.db.repository.member import get_member_by_id, get_member_by_member_id
 from app.db.repository.edir import get_edir_by_id
 from app.db.database import get_db
