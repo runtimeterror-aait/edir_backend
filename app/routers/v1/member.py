@@ -11,6 +11,7 @@ from app.db.repository.member import (
     delete_member,
     get_member_by_edir_username,
     get_member_by_id,
+    get_member_by_user_id,
     update_member,
 )
 from app.db.repository.user import get_user
@@ -37,6 +38,14 @@ def get_edir_members(
     check_admin=Depends(admin),
 ):
     return get_all_members(db=db, edir_id=edir_id, skip=skip, limit=limit)
+
+@router.get("/user/{user_id}")
+def get_member_by_user_id_with_edir(
+    user_id: int,
+    db: Session = Depends(get_db),
+    email=Depends(auth_handler.auth_wrapper),
+):
+    return get_member_by_user_id(db=db, user_id=user_id)
 
 
 # add a member
