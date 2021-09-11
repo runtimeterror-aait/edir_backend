@@ -18,6 +18,11 @@ def get_member_by_edir_username(db:Session, username:str):
     db_member = db.query(Member).filter(Member.edir_id == edir.id).first()
     return db_member
 
+
+def get_member_by_user_id(db:Session, user_id: int):
+    db_member = db.query(Member).filter(Member.user_id == user_id).options(joinedload(Member.edir)).first()
+    return db_member
+
 def get_member_by_member_id(db:Session, id: int):
     db_member = db.query(Member).filter(Member.id == id).first()
     return db_member

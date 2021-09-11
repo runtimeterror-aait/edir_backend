@@ -13,7 +13,7 @@ def get_event_by_id(db: Session, id: int):
 def get_event_by_user_id(db:Session, user_id: int, skip: int = 0, limit: int = 10):
     member = db.query(Member).filter(Member.user_id == user_id).first();
     edir_id = member.edir_id;
-    return  get_events(db=db, edir_id=edir_id, skip=skip, limit=limit);
+    return db.query(Event).filter(Event.edir_id == edir_id).offset(skip).limit(limit).all()
     
 def create_event(db: Session, email: str, event: EventCreate):
     db_event = Event(title=event.title, description=event.description, event_date=event.event_date, edir_id=event.edir_id)
