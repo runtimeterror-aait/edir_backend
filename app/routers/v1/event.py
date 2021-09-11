@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from app.db.repository.auth import AuthHandler
 from app.schemas import EventCreate, EventUpdate, Event as EventSchema
 from app.db.database import get_db
-from app.db.repository.event import get_events, get_event_by_id, create_event, update_event, delete_event
+from app.db.repository.event import get_event_by_user_id, get_events, get_event_by_id, create_event, update_event, delete_event
 from app.db.repository.edir import get_edir_by_id
 auth_handler = AuthHandler()
 
@@ -20,6 +20,14 @@ def get_all_events(edir_id: int, skip: int = 0, limit: int = 10,  email=Depends(
         raise HTTPException(status_code=404, detail="Edir doesn't exist")   
     else:
         events = get_events(db=db, edir_id=edir_id, skip=skip, limit=limit)
+        return events
+
+@router.get("user/{user_id}")
+def get_all_events(user_id: int, skip: int = 0, limit: int = 10,  email=Depends(auth_handler.auth_wrapper), db: Session = Depends(get_db)):
+    if get_edir_by_id(db=db, id=edir_id) is None:     
+        raise HTTPException(status_code=404, detail="Edir doesn't exist")   
+    else:
+        events = get_event_by_user_id(db=db, user_id=user_id, skip=skip, limit=limit)
         return events
 
 @router.get("/{edir_id}/{event_id}")
